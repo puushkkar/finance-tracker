@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+              .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+
+        .transactions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-desc {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .transaction-date {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-right: 15px;
+        }
+
+        .transaction-income .transaction-amount {
+            color: #2ecc71;
+        }
+
+        .transaction-expense .transaction-amount {
+            color: #e74c3c;
+        }
+
+        .no-transactions {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+          </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Personal Finance Tracker</h1>
+            <p>Manage your income, expenses, and savings</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card income">
+                <h3>Total Income</h3>
+                <div class="amount" id="totalIncome">₹0</div>
+            </div>
+            <div class="card expense">
+                <h3>Total Expenses</h3>
+                <div class="amount" id="totalExpenses">₹0</div>
+            </div>
+            <div class="card balance">
+                <h3>Balance</h3>
+                <div class="amount" id="balance">₹0</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="section">
+                <h2>Add Transaction</h2>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select id="type" required>
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" placeholder="e.g., Grocery, Salary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount (₹)</label>
+                        <input type="number" id="amount" placeholder="e.g., 500" min="1" required>
+                    </div>
+                    <button type="submit" class="btn">Add Transaction</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Recent Transactions</h2>
+                <div id="transactionsList" class="transactions-list">
+                    <div class="empty-state">
+                        <p>No transactions yet. Add your first one!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>All data is stored locally in your browser. No data is sent anywhere.</p>
+        </footer>
+    </div>
+    
+    <script>
+        const transactionForm = document.getElementById('transactionForm');
+        const transactionsList = document.getElementById('transactionsList');
+        const totalIncomeEl = document.getElementById('totalIncome');
+        const totalExpensesEl = document.getElementById('totalExpenses');
+        const balanceEl = document.getElementById('balance');
+
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+        function saveTransactions() {
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function updateDashboard() {
+            let income = 0;
+            let expenses = 0;
+
+            transactions.forEach(t => {
+                if (t.type === 'income') {
+                    income += t.amount;
+                } else {
+                    expenses += t.amount;
+                }
+            });
+
+            const balance = income - expenses;
+
+            totalIncomeEl.textContent = formatCurrency(income);
+            totalExpensesEl.textContent = formatCurrency(expenses);
+            balanceEl.textContent = formatCurrency(balance);
+        }
+
+        function renderTransactions() {
+            if (transactions.length === 0) {
+                transactionsList.innerHTML = '<div class="empty-state"><p>No transactions yet. Add your first one!</p></div>';
+                return;
+            }
+
+            transactionsList.innerHTML = '';
+
+            [...transactions].reverse().forEach((t, index) => {
+                const realIndex = transactions.length - 1 - index;
+                const item = document.createElement('div');
+                item.className = 'transaction-item transaction-' + t.type;
+                item.innerHTML = '<div class="transaction-info"><div class="transaction-desc">' + t.description + '</div><div class="transaction-date">' + formatDate(t.date) + '</div></div><div class="transaction-amount">' + (t.type === 'income' ? '+' : '-') + formatCurrency(t.amount) + '</div><button class="btn btn-delete" onclick="deleteTransaction(' + realIndex + ')">Delete</button>';
+                transactionsList.appendChild(item);
+            });
+        }
+
+        function deleteTransaction(index) {
+            transactions.splice(index, 1);
+            saveTransactions();
+            updateDashboard();
+            renderTransactions();
+        }
+
+        transactionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const type = document.getElementById('type').value;
+            const description = document.getElementById('description').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!description || !amount || amount <= 0) {
+                alert('Please fill in all fields correctly.');
+                return;
+            }
+
+            const transaction = {
+                id: Date.now(),
+                type: type,
+                description: description,
+                amount: amount,
+                date: new Date().toISOString()
+            };
+
+            transactions.push(transaction);
+            saveTransactions();
+            updateDashboard();
+            renderTransactions();
+
+            document.getElementById('description').value = '';
+            document.getElementById('amount').value = '';
+        });
+
+        updateDashboard();
+        renderTransactions();
+    </script>
+</body>
+</html>
