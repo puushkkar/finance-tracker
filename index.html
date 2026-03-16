@@ -13,22 +13,23 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0d1117;
             min-height: 100vh;
             padding: 20px;
+            color: #e6edf3;
         }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            background: white;
+            background: #161b22;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             overflow: hidden;
         }
 
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #238636 0%, #1a7f37 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -41,17 +42,76 @@
 
         header p {
             opacity: 0.9;
-            font-size: 1.1rem;
+
+                    .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #0d1117;
         }
 
-              .form-group {
+        .card {
+            background: #21262d;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            color: #8b949e;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .card .amount {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .card.income .amount {
+            color: #3fb950;
+        }
+
+        .card.expense .amount {
+            color: #f85149;
+        }
+
+        .card.balance .amount {
+            color: #58a6ff;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+                    .section {
+            background: #21262d;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .section h2 {
+            color: #e6edf3;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #238636;
+        }
+
+        .form-group {
             margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            color: #555;
+            color: #8b949e;
             font-weight: 500;
         }
 
@@ -59,22 +119,24 @@
         .form-group select {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid #30363d;
             border-radius: 8px;
             font-size: 1rem;
+            background: #0d1117;
+            color: #e6edf3;
             transition: border-color 0.3s;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #238636;
         }
 
-        .btn {
+                    .btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -86,11 +148,11 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 20px rgba(35, 134, 54, 0.4);
         }
 
         .btn-delete {
-            background: #e74c3c;
+            background: #da3633;
             padding: 5px 10px;
             font-size: 0.85rem;
             width: auto;
@@ -106,10 +168,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px;
-            background: white;
+            background: #21262d;
             border-radius: 10px;
             margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .transaction-info {
@@ -118,12 +180,12 @@
 
         .transaction-desc {
             font-weight: 500;
-            color: #333;
+            color: #e6edf3;
         }
 
         .transaction-date {
             font-size: 0.85rem;
-            color: #888;
+            color: #8b949e;
             margin-top: 3px;
         }
 
@@ -134,17 +196,17 @@
         }
 
         .transaction-income .transaction-amount {
-            color: #2ecc71;
+            color: #3fb950;
         }
 
         .transaction-expense .transaction-amount {
-            color: #e74c3c;
+            color: #f85149;
         }
 
         .no-transactions {
             text-align: center;
             padding: 40px;
-            color: #888;
+            color: #8b949e;
         }
 
         .empty-state {
@@ -160,18 +222,18 @@
         }
 
         .empty-state p {
-            color: #888;
+            color: #8b949e;
             font-size: 1.1rem;
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            color: #888;
+            color: #8b949e;
             font-size: 0.9rem;
         }
 
-          </style>
+                </style>
 </head>
 <body>
     <div class="container">
@@ -336,3 +398,5 @@
     </script>
 </body>
 </html>
+            
+        }
